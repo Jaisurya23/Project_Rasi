@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Rasi Furniture</title>
+    <title>Products - Rasi Furniture</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -27,75 +27,14 @@
     </header>
 
     <main class="container">
-        <div class="section-header">
-            <h2>Our Collection</h2>
-            <p>Explore our curated collection of high-quality furniture.</p>
-        </div>
-
-        <div class="product-grid">
-            <!-- Row 1 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/D2B48C/363636?text=Modern+Sofa" alt="Modern Sofa"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Elegant Modern Sofa</a></h3>
-                    <p class="product-price">$899.99</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
+        <section class="products-section">
+            <div class="section-header">
+                <h2>Our Products</h2>
             </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/8B4513/FFFFFF?text=Dining+Table" alt="Dining Table"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Oak Wood Dining Table</a></h3>
-                    <p class="product-price">$1200.00</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here dynamically -->
             </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/F5F5DC/363636?text=Lounge+Chair" alt="Lounge Chair"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Comfy Lounge Chair</a></h3>
-                    <p class="product-price">$450.50</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
-            </div>
-            <!-- Row 2 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/363636/FFFFFF?text=Bookshelf" alt="Bookshelf"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Minimalist Bookshelf</a></h3>
-                    <p class="product-price">$320.00</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/D2B48C/363636?text=King+Bed" alt="King Bed"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Royal King Bed</a></h3>
-                    <p class="product-price">$1500.00</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <a href="product-detail.html"><img src="https://placehold.co/600x400/8B4513/FFFFFF?text=Office+Desk" alt="Office Desk"></a>
-                </div>
-                <div class="product-info">
-                    <h3><a href="product-detail.html">Executive Office Desk</a></h3>
-                    <p class="product-price">$750.00</p>
-                    <a href="cart.html" class="btn">Add to Cart</a>
-                </div>
-            </div>
-        </div>
+        </section>
     </main>
 
     <footer class="main-footer">
@@ -116,7 +55,7 @@
                 </div>
                 <div class="footer-section">
                     <h4>Support</h4>
-                     <ul>
+                    <ul>
                         <li><a href="contact.html">Contact Us</a></li>
                         <li><a href="#">Shipping & Returns</a></li>
                         <li><a href="#">FAQ</a></li>
@@ -137,5 +76,41 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Function to load and display products
+        function loadProducts() {
+            const productGrid = document.getElementById('productGrid');
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            if (products.length === 0) {
+                productGrid.innerHTML = `
+                    <div class="no-products">
+                        <h3>No products available</h3>
+                        <p>Please add products through the admin panel.</p>
+                        <a href="admin-login.html" class="btn">Go to Admin</a>
+                    </div>
+                `;
+            } else {
+                productGrid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <a href="product-detail.html?id=${product.id}">
+                                <img src="${product.image}" alt="${product.name}">
+                            </a>
+                        </div>
+                        <div class="product-info">
+                            <h3><a href="product-detail.html?id=${product.id}">${product.name}</a></h3>
+                            <p class="product-price">$${product.price}</p>
+                            <a href="product-detail.html?id=${product.id}" class="btn">View Details</a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
 </body>
 </html> 
